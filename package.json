@@ -1,0 +1,32 @@
+{
+  "name": "oms_denkwerk",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.ts",
+  "scripts": {
+    "dev": "nodemon server.ts localhost",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^6.0.3",
+    "axios": "^1.12.2",
+    "body-parser": "^2.2.0",
+    "connect-livereload": "^0.6.1",
+    "cors": "^2.8.5",
+    "got": "^14.4.9",
+    "jest": "^30.2.0",
+    "livereload": "^0.10.3",
+    "mongodb": "^6.20.0",
+    "next": "^15.5.4",
+    "nodemon": "^3.1.10",
+    "redis": "^5.8.3",
+    "reload": "^3.4.2",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
+  }
+}
