@@ -1,6 +1,5 @@
-import axios, {AxiosResponse} from 'axios';
 import { Request, Response } from 'express';
-import { dbFindProductByName, dbWrite } from "./mongo"
+import { findProductByName, createUser } from "./mongo"
 import * as dotenv from "dotenv";
 
 dotenv.config({path:'./.env'})
@@ -19,15 +18,16 @@ const redisClient = redis.createClient();
 
 redisClient.connect().catch(console.error);
 
+/* fetches order by id */
 app.get('/order/:id', async (req: Request, res: Response) => {
-  /* fetches order by id */
+ 
 })
 
-/* validates order and send true if all fields are validated*/
+/* validates order and send true if all fields are validated */
 function validateOrderFields(order : object) : boolean {
   let validated : boolean = true
-  const numbers = /^(\d+\s?)+$/
-  const letters = /^[A-Za-z]+$/
+  const numbers = /^(\d+\s?)+$/ //validates digits
+  const letters = /^[A-Za-z]+$/ //validates letters
   for (let [key,value] of Object.entries(order)) {
       if (key === "quantity" || key === "house" || key === "postCode") {
           if ((!value || !(parseInt(value) > -1) || !numbers.test(value))) {           
@@ -45,18 +45,17 @@ function validateOrderFields(order : object) : boolean {
   console.log("validated", validated)
   return validated
 }
-
+/* creates and send JSON back to frontend e-shop */
 app.post('/orders', async (req: Request, res: Response) => {
   try {
     console.log("req body", req.body)
-    let body : object = {}
+    let body : object =  req.body
     let orderFields : {[key:string] : string | any} = {}
     let clientId : string = ""
     let productId : string = ""
     let productIems : Array<object> = []
-    let order : object = {}
+    let order : {[key:string] : string | any} = {}
 
-    body = req.body
     if (body) {
       orderFields = {
         quantity : req.body.quantity,
@@ -74,7 +73,7 @@ app.post('/orders', async (req: Request, res: Response) => {
       console.log("val", validateOrderFields(orderFields))
     }
     if (validateOrderFields(orderFields)) {
-      clientId = await dbWrite(
+      clientId = await createUser(
         {
           "name" : orderFields?.firstName,
           "surname" : orderFields.secondName, 
@@ -86,7 +85,7 @@ app.post('/orders', async (req: Request, res: Response) => {
           "phoneNumber" : req.body.phoneNumber
         }
       )
-      productId = await dbFindProductByName(orderFields.productName)
+      productId = await findProductByName(orderFields.productName)
       productIems.push(
         {
           productId : productId, 
@@ -100,8 +99,10 @@ app.post('/orders', async (req: Request, res: Response) => {
           items : productIems
       }
       console.log("client_id", clientId, productId, productIems, order)
-      await redisClient.set(`productId:${productId}`, JSON.stringify(order));
-      res.status(200).send({success: true, order : order})
+      if ((order.customerId !== "") && (order.items.length > 0)) {
+          await redisClient.set(`productId:${productId}`, JSON.stringify(order));
+          res.status(200).send({success: true, order : order})
+      }
     }
     else res.status(500).send({success: false, error: {message: 'Order can not be created'}})
   }
@@ -110,8 +111,9 @@ app.post('/orders', async (req: Request, res: Response) => {
   }
 });
 
+/* delete order by id */
 app.delete('/order/:id', async (req : Request, res : Response) => {
-  /* deleted order by id*/
+
 })
 
 app.listen(String(process.env.port), async () => {
