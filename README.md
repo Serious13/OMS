@@ -74,6 +74,7 @@ Annahmen bzgl. Architektur wurde in Teil "Beschriebung" genannt. NextJS wird fü
 
 ## OMS in AWS Cloud 
 
-- Falls in Datenbank neuen Antrag mit Bestellung abgelegt wird, dann wird AWS Lambda Funktion triggert, um die Daten zu validieren und wird CSV Datei erstellt 
+- Falls in Datenbank neuen Antrag mit Bestellung abgelegt wird, dann wird AWS Lambda Funktion getriggert, um die Daten zu validieren und wird CSV Datei erstellt 
 
 - Am Schluss wird mit AWS SES E-Mail mit CSV Verknüpfung als Bestätigung abgeschickt.
+
