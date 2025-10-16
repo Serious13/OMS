@@ -70,9 +70,10 @@ npm run dev
 - Express Server könnte in Docker Container laufen.
 - Deployment könnte mit Github durchgrüfurt werden.
 
-## Annahmen bzgl. Architektur wurde in Teil "Beschriebung" genannt. NextJS wird für Frontend Seite benutzt, um Frontend zu bedienen, mit Backend mit fetch Anfrage zu verbinden und letzendlich zu testen. NodeJS mit Express Server wird in Backend benutzt, um POST Anfrage zu bearbeiten und Event nach Frontend zurüskzuschicken. MongoDB wird benutzt mit Ware, Client zu arbeiten, um produktId und clientid abzuschicken.
+Annahmen bzgl. Architektur wurde in Teil "Beschriebung" genannt. NextJS wird für Frontend Seite benutzt, um Frontend zu bedienen, mit Backend mit fetch Anfrage zu verbinden und letzendlich zu testen. NodeJS mit Express Server wird in Backend benutzt, um POST Anfrage zu bearbeiten und Event nach Frontend zurüskzuschicken. MongoDB wird benutzt mit Ware, Client zu arbeiten, um produktId und clientid abzuschicken.
 
 ## OMS in AWS Cloud 
 
 - Falls in Datenbank neuen Antrag mit Bestellung abgelegt wird, dann wird AWS Lambda Funktion triggert, um die Daten zu validieren und wird CSV Datei erstellt 
+
 - Am Schluss wird mit AWS SES E-Mail mit CSV Verknüpfung als Bestätigung abgeschickt.
