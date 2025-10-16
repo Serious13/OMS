@@ -3,7 +3,7 @@ import Page from "./shopping_cart"
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[0.01fr_0.5fr_0.7fr] items-center justify-items-center min-h-screen p-8 pb-20 gap-2">
+    <div className="font-sans grid grid-rows-[0.01fr_0.5fr_0.6fr] items-center justify-items-center min-h-screen p-8 pb-20 gap-2">
       <header className="font-sans grid grid-rows-[1fr] items-center justify-items-center">        
         <hr className="header_bar"/>
         <h2>myElectronics</h2>
