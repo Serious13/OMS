@@ -9,7 +9,7 @@ const dbColl : string= process.env.DB_COL = process.env?.DB_COL ? process.env.DB
 
 const client : mongoDB.MongoClient = new mongoDB.MongoClient(connectionUrl)
 
-export async function dbWrite(user: {}) : Promise<any> {
+export async function createUser(user: {}) : Promise<any> {
     try {
         const db = client.db(dbName)
         const coll = db.collection(dbColl)
@@ -25,7 +25,7 @@ export async function dbWrite(user: {}) : Promise<any> {
     }
 }
 
-export async function dbFindProductByName(name : string) : Promise<any>  {
+export async function findProductByName(name : string) : Promise<any>  {
     try {
         const db = client.db(dbName)
         const coll = db.collection("products")
