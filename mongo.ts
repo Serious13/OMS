@@ -1,13 +1,29 @@
 import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
 
+const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
 dotenv.config({path:'./.env'})
 
 const connectionUrl : string = process.env?.DB_CONN_STRING ? process.env.DB_CONN_STRING : ""
 const dbName : string = process.env.DB_NAME = process.env?.DB_NAME ? process.env.DB_NAME : ""
 const dbColl : string= process.env.DB_COL = process.env?.DB_COL ? process.env.DB_COL : ""
+let mongoServer : any
 
 const client : mongoDB.MongoClient = new mongoDB.MongoClient(connectionUrl)
+
+beforeAll(async () => {
+    mongoServer = await MongoMemoryServer.create();
+    const uri = mongoServer.getUri();
+
+  await mongoose.connect(uri);
+});
+
+afterAll(async () => {
+    await mongoose.disconnect();
+    await mongoServer.stop();
+});
 
 export async function createUser(user: {}) : Promise<any> {
     try {
